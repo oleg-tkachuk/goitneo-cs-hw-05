@@ -1,6 +1,7 @@
 try:
     import os
     import sys
+    import shutil
     import asyncio
     import logging
     import argparse as ap
@@ -21,8 +22,7 @@ def copy_file(source_path, target_dir):
             logging.info(f"Created directory: [{target_dir}]")
 
         target_path = os.path.join(target_dir, os.path.basename(source_path))
-        with open(source_path, 'rb') as src, open(target_path, 'wb') as dst:
-            dst.write(src.read())
+        shutil.copy(source_path, target_path)
     except Exception as e:
         logging.error(f"Error copying file {source_path} to {target_dir}: {e}")
 
