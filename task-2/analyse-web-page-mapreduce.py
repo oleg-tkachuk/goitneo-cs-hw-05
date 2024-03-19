@@ -42,11 +42,12 @@ def map_reduce(text, num_processes=4):
 
 def visualize_top_words(word_counts, top=10):
     top_words = word_counts.most_common(top)
+    top_words.sort(key=lambda x: x[1])
     words, counts = zip(*top_words)
-    plt.bar(words, counts)
-    plt.xlabel('Words')
-    plt.ylabel('Frequency')
-    plt.title('Top Words in Text')
+    plt.barh(words, counts)
+    plt.xlabel('Frequency')
+    plt.ylabel('Words')
+    plt.title(f'Top {top} Most Frequent Words in Text')
     plt.xticks(rotation=45)
     plt.show()
 
@@ -67,8 +68,8 @@ def cli():
 def main():
     args = cli()
     text = get_url(args.url)
-    word_counts = map_reduce(text)
-    visualize_top_words(word_counts)
+    word_counts = map_reduce(text, args.processes)
+    visualize_top_words(word_counts, args.words)
 
 
 if __name__ == "__main__":
