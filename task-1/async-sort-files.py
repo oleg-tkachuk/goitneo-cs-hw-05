@@ -1,8 +1,12 @@
-import os
-import asyncio
-import logging
-import argparse as ap
-import concurrent.futures as cf
+try:
+    import os
+    import asyncio
+    import logging
+    import argparse as ap
+    import concurrent.futures as cf
+except ModuleNotFoundError as e:
+    print(f"Error: {e}")
+    exit(1)
 
 
 logging.basicConfig(level=logging.INFO,
