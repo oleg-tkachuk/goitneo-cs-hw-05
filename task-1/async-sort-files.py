@@ -1,5 +1,6 @@
 try:
     import os
+    import sys
     import asyncio
     import logging
     import argparse as ap
@@ -53,8 +54,16 @@ async def main():
     source_folder = args.source_folder
     output_folder = args.output_folder
 
+    if not os.path.isdir(source_folder):
+        raise Exception(f"The source directory [{
+                        source_folder}] does not exist or is not a directory.")
+
     loop = asyncio.get_running_loop()
     await read_folder(source_folder, output_folder, loop)
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except Exception as e:
+        print(f"Error: {e}")
+        sys.exit(1)
