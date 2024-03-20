@@ -11,19 +11,24 @@ except ModuleNotFoundError as e:
     print(f"Error: {e}")
     exit(1)
 
+
 def get_url(url):
     return requests.get(url).text
+
 
 def map_function(text, result_list):
     words = re.findall(r'\w+', text.lower())
     result_list.append(col.Counter(words))
 
+
 def reduce_function(mapping_list):
     return sum(mapping_list, col.Counter())
+
 
 def chunkify(text, num_chunks):
     chunk_size = len(text) // num_chunks
     return [text[i:i + chunk_size] for i in range(0, len(text), chunk_size)]
+
 
 def map_reduce(text, num_threads=4):
     chunks = chunkify(text, num_threads)
@@ -41,6 +46,7 @@ def map_reduce(text, num_threads=4):
     reduced = reduce_function(result_list)
     return reduced
 
+
 def visualize_top_words(word_counts, top=10):
     top_words = word_counts.most_common(top)
     top_words.sort(key=lambda x: x[1])
@@ -51,6 +57,7 @@ def visualize_top_words(word_counts, top=10):
     plt.title(f'Top {top} Most Frequent Words in Text')
     plt.xticks(rotation=45)
     plt.show()
+
 
 def cli():
     parser = ap.ArgumentParser(
@@ -64,11 +71,13 @@ def cli():
 
     return parser.parse_args()
 
+
 def main():
     args = cli()
     text = get_url(args.url)
     word_counts = map_reduce(text, args.threads)
     visualize_top_words(word_counts, args.words)
+
 
 if __name__ == "__main__":
     try:
