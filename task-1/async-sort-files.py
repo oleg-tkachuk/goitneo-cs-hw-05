@@ -55,8 +55,8 @@ async def main():
     output_folder = args.output_folder
 
     if not os.path.isdir(source_folder):
-        raise Exception(f"The source directory [{
-                        source_folder}] does not exist or is not a directory.")
+        raise Exception(
+            f"The source directory [{source_folder}] does not exist or is not a directory.")
 
     loop = asyncio.get_running_loop()
     await read_folder(source_folder, output_folder, loop)
